@@ -34,6 +34,25 @@ This project is being developed as part of the FlyRank frontend capstone.
 
 🚧 Project setup in progress.
 
+## Getting Started
+
+To get started with this project, clone the repository and review the documentation:
+
+```bash
+git clone https://github.com/Vandana2005pal/ai-lead-generation-widget.git
+cd ai-lead-generation-widget
+```
+
+## Usage
+
+The project is currently in Phase 1 (Environment Setup). To view the current state of the project, review the documentation files in the repository:
+
+- **README.md** - Project overview and roadmap
+- **CLAUDE.md** - Development rules and coding guidelines
+- **LICENSE** - Project license
+
+As the project progresses through Phase 2, a lead generation interface with responsive UI components will be available to view.
+
 ## Author
 
 Vandana
