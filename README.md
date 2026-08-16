@@ -37,3 +37,35 @@ This project is being developed as part of the FlyRank frontend capstone.
 ## Author
 
 Vandana
+## Project Roadmap
+
+### Phase 1 - Environment Setup
+- Set up Node.js and Git
+- Configure the GitHub repository
+- Define project rules and conventions
+
+### Phase 2 - Frontend Development
+- Build the lead generation interface
+- Create responsive UI components
+- Add form validation
+- Improve accessibility
+
+### Phase 3 - Testing and Refinement
+- Test the interface
+- Fix bugs
+- Improve usability
+- Review responsive behavior
+
+### Phase 4 - Deployment
+- Prepare the production build
+- Deploy the application
+- Document the final project
+
+## Repository Structure
+
+```text
+fe-capstone/
+├── .gitignore
+├── CLAUDE.md
+├── LICENSE
+└── README.md
