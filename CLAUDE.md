@@ -61,3 +61,12 @@ When modifying the project:
 ## Project Status
 
 The project is currently in the initial environment and repository setup phase.
+## Development Workflow
+
+Before making changes:
+
+1. Understand the existing project structure.
+2. Make small and focused changes.
+3. Test changes when applicable.
+4. Keep documentation updated.
+5. Use clear Conventional Commit messages.
