@@ -4,18 +4,19 @@
  */
 
 class SettingsForm {
-  constructor() {
-    this.form = document.getElementById("settingsForm");
-    this.successAlert = document.getElementById("successAlert");
-    this.errorAlert = document.getElementById("errorAlert");
+  constructor(options = {}) {
+    this.form = options.form || (typeof document !== "undefined" ? document.getElementById("settingsForm") : null);
+    this.successAlert = options.successAlert || (typeof document !== "undefined" ? document.getElementById("successAlert") : null);
+    this.errorAlert = options.errorAlert || (typeof document !== "undefined" ? document.getElementById("errorAlert") : null);
+    this.storage = options.storage || (typeof localStorage !== "undefined" ? localStorage : null);
     this.isDirty = false;
     this.submitButtonText = "Save Settings";
 
-    this.charCountElements = {
-      formTitle: document.getElementById("formTitleCount"),
-      formDescription: document.getElementById("formDescriptionCount"),
-      successMessage: document.getElementById("successMessageCount"),
-      errorMessage: document.getElementById("errorMessageCount"),
+    this.charCountElements = options.charCountElements || {
+      formTitle: typeof document !== "undefined" ? document.getElementById("formTitleCount") : null,
+      formDescription: typeof document !== "undefined" ? document.getElementById("formDescriptionCount") : null,
+      successMessage: typeof document !== "undefined" ? document.getElementById("successMessageCount") : null,
+      errorMessage: typeof document !== "undefined" ? document.getElementById("errorMessageCount") : null,
     };
 
     this.validationRules = {
@@ -129,7 +130,17 @@ class SettingsForm {
       ],
     };
 
-    this.init();
+    if (this.form) {
+      this.init();
+    }
+  }
+
+  getErrorElement(fieldName) {
+    if (typeof document === "undefined") {
+      return null;
+    }
+
+    return document.getElementById(`${fieldName}Error`);
   }
 
   /**
@@ -139,7 +150,6 @@ class SettingsForm {
     this.form.addEventListener("submit", (e) => this.handleSubmit(e));
     this.form.addEventListener("reset", () => this.handleReset());
 
-    // Add input event listeners for real-time validation and character counting
     this.form.querySelectorAll("input, textarea, select").forEach((field) => {
       field.addEventListener("input", (e) => {
         this.markDirty();
@@ -161,47 +171,35 @@ class SettingsForm {
       });
     });
 
-    // Load saved settings on page load
     this.loadSettings();
 
-    // Setup before unload warning for unsaved changes
-    window.addEventListener("beforeunload", (e) => {
-      if (this.isDirty) {
-        e.preventDefault();
-        e.returnValue = "";
-        return "";
-      }
-    });
+    if (typeof window !== "undefined") {
+      window.addEventListener("beforeunload", (e) => {
+        if (this.isDirty) {
+          e.preventDefault();
+          e.returnValue = "";
+          return "";
+        }
+      });
+    }
   }
 
-  /**
-   * Mark form as having unsaved changes
-   */
   markDirty() {
     this.isDirty = true;
   }
 
-  /**
-   * Mark form as clean (all changes saved)
-   */
   markClean() {
     this.isDirty = false;
   }
 
-  /**
-   * Clear error message for a specific field
-   */
   clearFieldError(field) {
-    const errorElement = document.getElementById(`${field.name}Error`);
+    const errorElement = this.getErrorElement(field.name);
     if (errorElement) {
       errorElement.classList.remove("show");
       errorElement.textContent = "";
     }
   }
 
-  /**
-   * Update character count for text areas and inputs
-   */
   updateCharCount(field) {
     const fieldName = field.name;
     const countElement = this.charCountElements[fieldName];
@@ -211,36 +209,34 @@ class SettingsForm {
     }
   }
 
-  /**
-   * Validate email format
-   */
   isValidEmail(email) {
+    const normalizedEmail = String(email ?? "").trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    return emailRegex.test(normalizedEmail);
   }
 
-  /**
-   * Validate a single field
-   */
   validateField(field) {
     const rules = this.validationRules[field.name];
-    const errorElement = document.getElementById(`${field.name}Error`);
+    const errorElement = this.getErrorElement(field.name);
 
     if (!rules) {
       return true;
     }
 
-    // Clear previous validation states
-    field.classList.remove("is-invalid", "is-valid");
+    if (field.classList && typeof field.classList.remove === "function") {
+      field.classList.remove("is-invalid", "is-valid");
+    }
+
     if (errorElement) {
       errorElement.classList.remove("show");
       errorElement.textContent = "";
     }
 
-    // Run validation rules
     for (const { rule, message } of rules) {
       if (!rule(field.value)) {
-        field.classList.add("is-invalid");
+        if (field.classList && typeof field.classList.add === "function") {
+          field.classList.add("is-invalid");
+        }
         if (errorElement) {
           errorElement.textContent = message;
           errorElement.classList.add("show");
@@ -249,15 +245,17 @@ class SettingsForm {
       }
     }
 
-    // Mark as valid if all rules pass
-    field.classList.add("is-valid");
+    if (field.classList && typeof field.classList.add === "function") {
+      field.classList.add("is-valid");
+    }
     return true;
   }
 
-  /**
-   * Validate entire form
-   */
   validateForm() {
+    if (!this.form || !this.form.querySelectorAll) {
+      return false;
+    }
+
     const fields = this.form.querySelectorAll("input, textarea, select");
     let isValid = true;
 
@@ -270,123 +268,116 @@ class SettingsForm {
     return isValid;
   }
 
-  /**
-   * Handle form submission
-   */
   handleSubmit(e) {
     e.preventDefault();
 
-    // Hide alerts
+    if (!this.successAlert || !this.errorAlert) {
+      return;
+    }
+
     this.successAlert.setAttribute("hidden", "");
     this.errorAlert.setAttribute("hidden", "");
 
     if (!this.validateForm()) {
       this.showErrorAlert();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (typeof window !== "undefined" && typeof window.scrollTo === "function") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
       return;
     }
 
-    // Collect form data
     const formData = new FormData(this.form);
     const settings = Object.fromEntries(formData);
-
-    // Handle checkboxes explicitly (they're only included if checked)
     settings.emailField = this.form.querySelector("#emailField").checked;
     settings.phoneField = this.form.querySelector("#phoneField").checked;
     settings.companyField = this.form.querySelector("#companyField").checked;
-    settings.enableDarkMode = this.form.querySelector("#enableDarkMode")
-      .checked;
+    settings.enableDarkMode = this.form.querySelector("#enableDarkMode").checked;
 
-    // Save settings
     this.saveSettings(settings);
     this.markClean();
     this.showSuccessAlert();
 
-    // Log settings (in a real app, this would be sent to a server)
-    console.log("Settings saved successfully:", settings);
-
-    // Scroll to top to show success message
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (typeof window !== "undefined" && typeof window.scrollTo === "function") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }
 
-  /**
-   * Handle form reset
-   */
   handleReset() {
-    // Clear all validation states
+    if (!this.form) {
+      return;
+    }
+
     this.form.querySelectorAll("input, textarea, select").forEach((field) => {
-      field.classList.remove("is-invalid", "is-valid");
+      if (field.classList && typeof field.classList.remove === "function") {
+        field.classList.remove("is-invalid", "is-valid");
+      }
     });
 
-    // Clear all error messages
-    this.form.querySelectorAll(".error-message").forEach((error) => {
-      error.classList.remove("show");
-      error.textContent = "";
-    });
+    const errorMessages = this.form.querySelectorAll(".error-message");
+    if (errorMessages) {
+      errorMessages.forEach((error) => {
+        error.classList.remove("show");
+        error.textContent = "";
+      });
+    }
 
-    // Reset character counts
     Object.values(this.charCountElements).forEach((element) => {
-      element.textContent = "0";
+      if (element) {
+        element.textContent = "0";
+      }
     });
 
-    // Hide alerts
-    this.successAlert.setAttribute("hidden", "");
-    this.errorAlert.setAttribute("hidden", "");
+    if (this.successAlert) {
+      this.successAlert.setAttribute("hidden", "");
+    }
 
-    // Mark as clean after reset
+    if (this.errorAlert) {
+      this.errorAlert.setAttribute("hidden", "");
+    }
+
     this.markClean();
-    console.log("Form reset to defaults");
   }
 
-  /**
-   * Save settings to localStorage
-   */
   saveSettings(settings) {
+    if (!this.storage || typeof this.storage.setItem !== "function") {
+      return false;
+    }
+
     try {
       const dataToSave = {
         ...settings,
         savedAt: new Date().toISOString(),
       };
-      localStorage.setItem("widgetSettings", JSON.stringify(dataToSave));
+      this.storage.setItem("widgetSettings", JSON.stringify(dataToSave));
       return true;
     } catch (error) {
       console.error("Error saving settings:", error);
-      if (error.name === "QuotaExceededError") {
-        console.warn("localStorage quota exceeded");
-      }
       return false;
     }
   }
 
-  /**
-   * Load settings from localStorage
-   */
   loadSettings() {
+    if (!this.storage || typeof this.storage.getItem !== "function") {
+      return;
+    }
+
     try {
-      const saved = localStorage.getItem("widgetSettings");
+      const saved = this.storage.getItem("widgetSettings");
       if (saved) {
         const settings = JSON.parse(saved);
         this.populateForm(settings);
         this.markClean();
-        const savedDate = settings.savedAt
-          ? new Date(settings.savedAt).toLocaleString()
-          : "unknown";
-        console.log("Settings loaded from", savedDate);
       }
     } catch (error) {
       console.error("Error loading settings:", error);
-      if (error instanceof SyntaxError) {
-        console.warn("Corrupted settings data, starting fresh");
-        localStorage.removeItem("widgetSettings");
-      }
     }
   }
-  }
 
-  /**
-   * Populate form with saved settings
-   */
   populateForm(settings) {
+    if (!this.form) {
+      return;
+    }
+
     Object.keys(settings).forEach((key) => {
       const field = this.form.querySelector(`[name="${key}"]`);
       if (!field) return;
@@ -400,25 +391,30 @@ class SettingsForm {
     });
   }
 
-  /**
-   * Show success alert
-   */
   showSuccessAlert() {
-    this.successAlert.removeAttribute("hidden");
-    setTimeout(() => {
-      this.successAlert.setAttribute("hidden", "");
-    }, 5000);
+    if (this.successAlert) {
+      this.successAlert.removeAttribute("hidden");
+      setTimeout(() => {
+        if (this.successAlert) {
+          this.successAlert.setAttribute("hidden", "");
+        }
+      }, 5000);
+    }
   }
 
-  /**
-   * Show error alert
-   */
   showErrorAlert() {
-    this.errorAlert.removeAttribute("hidden");
+    if (this.errorAlert) {
+      this.errorAlert.removeAttribute("hidden");
+    }
   }
 }
 
-// Initialize the form when DOM is ready
-document.addEventListener("DOMContentLoaded", () => {
-  new SettingsForm();
-});
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", () => {
+    new SettingsForm();
+  });
+}
+
+if (typeof module !== "undefined") {
+  module.exports = { SettingsForm };
+}
