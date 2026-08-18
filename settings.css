@@ -1,0 +1,437 @@
+/* ===========================
+   Settings Form Styles
+   =========================== */
+
+:root {
+  --color-primary: #007bff;
+  --color-primary-hover: #0056b3;
+  --color-secondary: #6c757d;
+  --color-success: #28a745;
+  --color-error: #dc3545;
+  --color-warning: #ffc107;
+  --color-border: #dee2e6;
+  --color-background: #ffffff;
+  --color-text: #212529;
+  --color-text-muted: #6c757d;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --border-radius: 0.375rem;
+  --transition-speed: 0.2s;
+  --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #1e1e1e;
+    --color-text: #e8e8e8;
+    --color-text-muted: #a0a0a0;
+    --color-border: #404040;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  padding: var(--spacing-md);
+  transition: background-color var(--transition-speed),
+    color var(--transition-speed);
+}
+
+/* ===========================
+   Container & Layout
+   =========================== */
+
+.settings-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+  background-color: var(--color-background);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+}
+
+.settings-header {
+  margin-bottom: var(--spacing-xl);
+  text-align: center;
+}
+
+.settings-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-text);
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+}
+
+/* ===========================
+   Form Sections
+   =========================== */
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.form-section {
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  background-color: var(--color-background);
+}
+
+.form-section legend {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+  padding: 0 var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+/* ===========================
+   Form Groups
+   =========================== */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* ===========================
+   Form Inputs
+   =========================== */
+
+input[type="text"],
+input[type="email"],
+textarea,
+select {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-family: var(--font-family);
+  font-size: 1rem;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  transition: border-color var(--transition-speed),
+    box-shadow var(--transition-speed);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+input[type="text"]:disabled,
+input[type="email"]:disabled,
+textarea:disabled,
+select:disabled {
+  background-color: #f5f5f5;
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* ===========================
+   Checkboxes & Radio Buttons
+   =========================== */
+
+input[type="checkbox"],
+input[type="radio"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+}
+
+.checkbox-label {
+  font-weight: 400;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+/* ===========================
+   Color Input
+   =========================== */
+
+input[type="color"] {
+  width: 60px;
+  height: 40px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+
+/* ===========================
+   Validation States
+   =========================== */
+
+input.is-invalid,
+textarea.is-invalid,
+select.is-invalid {
+  border-color: var(--color-error);
+  background-color: rgba(220, 53, 69, 0.05);
+}
+
+input.is-invalid:focus,
+textarea.is-invalid:focus,
+select.is-invalid:focus {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25);
+}
+
+input.is-valid,
+textarea.is-valid,
+select.is-valid {
+  border-color: var(--color-success);
+  background-color: rgba(40, 167, 69, 0.05);
+}
+
+input.is-valid:focus,
+textarea.is-valid:focus,
+select.is-valid:focus {
+  border-color: var(--color-success);
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.25);
+}
+
+/* ===========================
+   Error Messages
+   =========================== */
+
+.error-message {
+  font-size: 0.875rem;
+  color: var(--color-error);
+  display: none;
+  margin-top: var(--spacing-xs);
+}
+
+.error-message.show {
+  display: block;
+}
+
+/* ===========================
+   Character Count
+   =========================== */
+
+.char-count {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  text-align: right;
+}
+
+/* ===========================
+   Buttons
+   =========================== */
+
+.form-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: 1px solid transparent;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+.btn-secondary:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* ===========================
+   Alerts
+   =========================== */
+
+.alert {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius);
+  margin-top: var(--spacing-lg);
+  border-left: 4px solid;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+}
+
+.alert strong {
+  font-weight: 600;
+}
+
+.alert-success {
+  background-color: rgba(40, 167, 69, 0.1);
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.alert-error {
+  background-color: rgba(220, 53, 69, 0.1);
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+.alert[hidden] {
+  display: none;
+}
+
+/* ===========================
+   Responsive Design
+   =========================== */
+
+@media (max-width: 768px) {
+  .settings-container {
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .settings-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .form-section {
+    padding: var(--spacing-md);
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .form-group label {
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: var(--spacing-sm);
+  }
+
+  .settings-container {
+    padding: var(--spacing-md);
+  }
+
+  .settings-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .form-section {
+    padding: var(--spacing-md);
+  }
+
+  input[type="text"],
+  input[type="email"],
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+/* ===========================
+   Print Styles
+   =========================== */
+
+@media print {
+  .settings-container {
+    box-shadow: none;
+    border: 1px solid var(--color-border);
+  }
+
+  .form-actions {
+    display: none;
+  }
+
+  .alert {
+    display: none;
+  }
+}

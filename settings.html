@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings - AI Lead Generation Widget</title>
+    <link rel="stylesheet" href="settings.css" />
+  </head>
+  <body>
+    <div class="settings-container">
+      <header class="settings-header">
+        <h1>Widget Settings</h1>
+        <p class="subtitle">Configure your AI Lead Generation Widget</p>
+      </header>
+
+      <form id="settingsForm" class="settings-form" novalidate>
+        <!-- Form Title Section -->
+        <fieldset class="form-section">
+          <legend>Form Configuration</legend>
+
+          <div class="form-group">
+            <label for="formTitle">Form Title</label>
+            <input
+              type="text"
+              id="formTitle"
+              name="formTitle"
+              placeholder="e.g., Get Your Free Consultation"
+              maxlength="100"
+              required
+            />
+            <span class="error-message" id="formTitleError"></span>
+            <span class="char-count">
+              <span id="formTitleCount">0</span>/100
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="formDescription">Form Description</label>
+            <textarea
+              id="formDescription"
+              name="formDescription"
+              placeholder="Describe what users will get..."
+              maxlength="500"
+              rows="4"
+            ></textarea>
+            <span class="error-message" id="formDescriptionError"></span>
+            <span class="char-count">
+              <span id="formDescriptionCount">0</span>/500
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="submitButtonText">Submit Button Text</label>
+            <input
+              type="text"
+              id="submitButtonText"
+              name="submitButtonText"
+              placeholder="e.g., Get Started"
+              maxlength="50"
+              required
+            />
+            <span class="error-message" id="submitButtonTextError"></span>
+          </div>
+        </fieldset>
+
+        <!-- Contact Information Section -->
+        <fieldset class="form-section">
+          <legend>Contact Information</legend>
+
+          <div class="form-group">
+            <label for="emailField">Include Email Field</label>
+            <input
+              type="checkbox"
+              id="emailField"
+              name="emailField"
+              checked
+            />
+            <span class="checkbox-label">Email field required</span>
+          </div>
+
+          <div class="form-group">
+            <label for="phoneField">Include Phone Field</label>
+            <input type="checkbox" id="phoneField" name="phoneField" />
+            <span class="checkbox-label">Phone field optional</span>
+          </div>
+
+          <div class="form-group">
+            <label for="companyField">Include Company Field</label>
+            <input type="checkbox" id="companyField" name="companyField" />
+            <span class="checkbox-label">Company field optional</span>
+          </div>
+
+          <div class="form-group">
+            <label for="nameRequirement">Name Field Requirement</label>
+            <select id="nameRequirement" name="nameRequirement" required>
+              <option value="">-- Select --</option>
+              <option value="required">Required</option>
+              <option value="optional">Optional</option>
+              <option value="hidden">Hide name field</option>
+            </select>
+            <span class="error-message" id="nameRequirementError"></span>
+          </div>
+        </fieldset>
+
+        <!-- Email Settings Section -->
+        <fieldset class="form-section">
+          <legend>Email Settings</legend>
+
+          <div class="form-group">
+            <label for="recipientEmail">Recipient Email Address</label>
+            <input
+              type="email"
+              id="recipientEmail"
+              name="recipientEmail"
+              placeholder="leads@yourcompany.com"
+              required
+            />
+            <span class="error-message" id="recipientEmailError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="senderEmail">Sender Email Address</label>
+            <input
+              type="email"
+              id="senderEmail"
+              name="senderEmail"
+              placeholder="noreply@yourcompany.com"
+              required
+            />
+            <span class="error-message" id="senderEmailError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="emailSubject">Email Subject Line</label>
+            <input
+              type="text"
+              id="emailSubject"
+              name="emailSubject"
+              placeholder="New Lead Submission"
+              maxlength="100"
+              required
+            />
+            <span class="error-message" id="emailSubjectError"></span>
+          </div>
+        </fieldset>
+
+        <!-- User Feedback Section -->
+        <fieldset class="form-section">
+          <legend>User Feedback</legend>
+
+          <div class="form-group">
+            <label for="successMessage">Success Message</label>
+            <textarea
+              id="successMessage"
+              name="successMessage"
+              placeholder="Thank you for your interest!"
+              maxlength="250"
+              rows="3"
+              required
+            ></textarea>
+            <span class="error-message" id="successMessageError"></span>
+            <span class="char-count">
+              <span id="successMessageCount">0</span>/250
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="errorMessage">Error Message</label>
+            <textarea
+              id="errorMessage"
+              name="errorMessage"
+              placeholder="Please fill out all required fields."
+              maxlength="250"
+              rows="3"
+              required
+            ></textarea>
+            <span class="error-message" id="errorMessageError"></span>
+            <span class="char-count">
+              <span id="errorMessageCount">0</span>/250
+            </span>
+          </div>
+        </fieldset>
+
+        <!-- Appearance Section -->
+        <fieldset class="form-section">
+          <legend>Appearance</legend>
+
+          <div class="form-group">
+            <label for="primaryColor">Primary Color</label>
+            <input
+              type="color"
+              id="primaryColor"
+              name="primaryColor"
+              value="#007bff"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="buttonStyle">Button Style</label>
+            <select id="buttonStyle" name="buttonStyle" required>
+              <option value="">-- Select --</option>
+              <option value="filled">Filled</option>
+              <option value="outline">Outline</option>
+              <option value="ghost">Ghost</option>
+            </select>
+            <span class="error-message" id="buttonStyleError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="enableDarkMode">Dark Mode</label>
+            <input type="checkbox" id="enableDarkMode" name="enableDarkMode" />
+            <span class="checkbox-label">Enable dark mode support</span>
+          </div>
+        </fieldset>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Save Settings</button>
+          <button type="reset" class="btn btn-secondary">Reset to Defaults</button>
+        </div>
+      </form>
+
+      <!-- Success Message -->
+      <div id="successAlert" class="alert alert-success" role="alert" hidden>
+        <strong>Success!</strong> Your settings have been saved.
+      </div>
+
+      <!-- Error Alert -->
+      <div id="errorAlert" class="alert alert-error" role="alert" hidden>
+        <strong>Error!</strong> Please check the form for errors.
+      </div>
+    </div>
+
+    <script src="settings.js"></script>
+  </body>
+</html>
