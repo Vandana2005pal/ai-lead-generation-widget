@@ -70,3 +70,14 @@ Before making changes:
 3. Test changes when applicable.
 4. Keep documentation updated.
 5. Use clear Conventional Commit messages.
+## Project Rules
+
+1. Keep the settings form implementation in the existing `settings.html`, `settings.css`, and `settings.js` files unless a new file is required for tests or a clearly scoped feature.
+
+2. Form inputs must use explicit labels and accessible validation messages. Required fields must be validated before submission, and email fields must reject invalid email formats.
+
+3. Use the project's existing lightweight test approach with Node's built-in test runner (`node --test`) for JavaScript validation tests. Do not add testing dependencies or modify `package.json` unless they are genuinely required.
+
+4. Do not modify unrelated documentation or project files when implementing a focused settings-form feature.
+
+5. When changing settings-form behavior, add or update tests for required fields, invalid email input, optional fields, and successful valid submission.
