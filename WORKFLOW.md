@@ -10,7 +10,7 @@ For Round 2, I used a fresh session and provided project context, requirements, 
 
 ## Specific Differences
 
-The branch diff shows `settings.js` changed substantially: 298 lines were added and 121 removed across the two changed files, with 181 lines of new test code. Round 2 introduced testable validation behavior for required values, invalid email addresses, optional empty fields, and successful valid settings.
+The branch diff shows `settings.js` changed substantially:  Round 2 introduced testable validation behavior for required values, invalid email addresses, optional empty fields, and successful valid settings.
 
 ## Correctness and Edge Cases
 
